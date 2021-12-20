@@ -1,19 +1,29 @@
 import React, { useState } from 'react'
 import { Typography, Button, Form, Input } from 'antd'
 
-const { Title } = Typography;
+const { Title } = Typography
 const { TextArea } = Input
+
+const continents = [
+    { key: 1, value: "Africa" },
+    { key: 2, value: "Europe" },
+    { key: 3, value: "Asia" },
+    { key: 4, value: "North America" },
+    { key: 5, value: "South America" },
+    { key: 6, value: "Oceania" }
+]
 
 function UploadProductPage() {
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
-    const [price, setPrice] = useState(0)
-    const [continet, setContinent] = useState(1)
+    const [price, setPrice] = useState("")
+    const [continet, setContinent] = useState("")
     const [images, setImages] = useState([])
 
     const titleChangeHandler = e => setTitle(e.currentTarget.value)
     const descriptionChangeHandler = e => setDescription(e.currentTarget.value)
     const priceChangeHandler = e => setPrice(e.currentTarget.value)
+    const continentChangeHandler = e => setContinent(e.currentTarget.value)
 
     return (
         <div>
@@ -37,8 +47,8 @@ function UploadProductPage() {
                     <Input type="number" onChange={priceChangeHandler} value={price} />
                     <br />
                     <br />
-                    <select>
-                        <option></option>
+                    <select onChange={continentChangeHandler} value={continet}>
+                        {continents.map(item => <option key={item.key} value={item.value}>{item.value}</option>)}
                     </select>
                     <br />
                     <br />
