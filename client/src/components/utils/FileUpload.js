@@ -1,9 +1,15 @@
-import React from 'react'
+/* global location */
+/* eslint no-restricted-globals: ["off"] */
+
+import React, { useState } from 'react'
 import Dropzone from 'react-dropzone'
 import { Icon } from 'antd'
 import axios from 'axios'
 
 function FileUpload() {
+    const [images, setImages] = useState([])
+    const host = location.origin === "http://localhost:3000" ? "http://localhost:5000" : location.origin;
+
     const dropHandler = files => {
         let formData = new FormData();
         const config = {
@@ -14,7 +20,7 @@ function FileUpload() {
         axios.post('/api/product/image', formData, config)
             .then(response => {
                 if (response.data.success) {
-
+                    setImages([...images, response.data.filePath])
                 } else {
                     alert("파일을 저장하는데 실패했습니다.")
                 }
@@ -43,6 +49,17 @@ function FileUpload() {
                     </section>
                 )}
             </Dropzone>
+
+            <div style={{ display: 'flex', width: '350px', height: '240px', overflow: 'auto' }}>
+                {images.map((image, index) => (
+                    <div key={index}>
+                        <img
+                            style={{ minWidth: '300px', width: '300px', height: '240px' }}
+                            src={`${host}/${image}`}
+                        />
+                    </div>
+                ))}
+            </div>
         </div>
     )
 }
