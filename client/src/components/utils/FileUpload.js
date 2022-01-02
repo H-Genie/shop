@@ -27,6 +27,14 @@ function FileUpload() {
             })
     }
 
+    const deleteHandler = image => {
+        const currentIndex = images.indexOf(image);
+
+        let newImages = [...images];
+        newImages.splice(currentIndex, 1); // 시작점, 갯수
+        setImages(newImages)
+    }
+
     return (
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <Dropzone onDrop={dropHandler}>
@@ -52,7 +60,7 @@ function FileUpload() {
 
             <div style={{ display: 'flex', width: '350px', height: '240px', overflow: 'auto' }}>
                 {images.map((image, index) => (
-                    <div key={index}>
+                    <div key={index} onClick={() => deleteHandler(image)}>
                         <img
                             style={{ minWidth: '300px', width: '300px', height: '240px' }}
                             src={`${host}/${image}`}
