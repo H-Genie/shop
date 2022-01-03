@@ -26,6 +26,11 @@ function UploadProductPage() {
     const priceChangeHandler = e => setPrice(e.currentTarget.value)
     const continentChangeHandler = e => setContinent(e.currentTarget.value)
 
+    const updateImages = newImages => {
+        setImages(newImages)
+    }
+    console.log(images)
+
     return (
         <div>
             <div style={{ maxWidth: '700px', margin: '2rem auto' }}>
@@ -34,7 +39,7 @@ function UploadProductPage() {
                 </div>
 
                 <Form>
-                    <FileUpload />
+                    <FileUpload refreshFunction={updateImages} />
 
                     <br />
                     <br />

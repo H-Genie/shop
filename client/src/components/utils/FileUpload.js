@@ -6,7 +6,7 @@ import Dropzone from 'react-dropzone'
 import { Icon } from 'antd'
 import axios from 'axios'
 
-function FileUpload() {
+function FileUpload({ refreshFunction }) {
     const [images, setImages] = useState([])
     const host = location.origin === "http://localhost:3000" ? "http://localhost:5000" : location.origin;
 
@@ -21,6 +21,7 @@ function FileUpload() {
             .then(response => {
                 if (response.data.success) {
                     setImages([...images, response.data.filePath])
+                    refreshFunction([...images, response.data.filePath])
                 } else {
                     alert("파일을 저장하는데 실패했습니다.")
                 }
@@ -33,6 +34,7 @@ function FileUpload() {
         let newImages = [...images];
         newImages.splice(currentIndex, 1); // 시작점, 갯수
         setImages(newImages)
+        refreshFunction(newImages)
     }
 
     return (
@@ -64,6 +66,7 @@ function FileUpload() {
                         <img
                             style={{ minWidth: '300px', width: '300px', height: '240px' }}
                             src={`${host}/${image}`}
+                            alt=''
                         />
                     </div>
                 ))}
