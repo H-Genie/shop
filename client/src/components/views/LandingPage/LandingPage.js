@@ -1,10 +1,8 @@
-/* global location */
-/* eslint no-restricted-globals: ["off"] */
-
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Icon, Col, Card, Row } from 'antd'
 import Meta from 'antd/lib/card/Meta'
+import ImageSlider from '../../utils/ImageSlider'
 
 function LandingPage() {
     useEffect(() => {
@@ -19,13 +17,12 @@ function LandingPage() {
     }, [])
 
     const [products, setProducts] = useState([])
-    const host = location.origin === "http://localhost:3000" ? "http://localhost:5000" : location.origin;
 
     const renderCards = products.map((product, index) => {
         return (
             <Col lg={6} md={8} xs={24} key={index}>
                 <Card
-                    cover={<img style={{ width: '100%' }} src={`${host}/${product.images[0]}`} alt={product.title} />}
+                    cover={<ImageSlider images={product.images} />}
                 >
                     <Meta
                         title={product.title}
