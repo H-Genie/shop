@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import { Icon, Col, Card, Row } from 'antd'
+import { Icon, Col, Card, Row, Button } from 'antd'
 import Meta from 'antd/lib/card/Meta'
 import ImageSlider from '../../utils/ImageSlider'
 
 function LandingPage() {
     useEffect(() => {
-        axios.post('/api/product/products')
+        let body = {
+            skip,
+            limit
+        }
+
+        axios.post('/api/product/products', body)
             .then(response => {
                 if (response.data.success) {
                     setProducts(response.data.productInfo)
@@ -17,6 +22,12 @@ function LandingPage() {
     }, [])
 
     const [products, setProducts] = useState([])
+    const [skip, setSkip] = useState(0)
+    const [limit, setLimit] = useState(8)
+
+    const loadMoreHandler = () => {
+
+    }
 
     const renderCards = products.map((product, index) => {
         return (
@@ -43,8 +54,8 @@ function LandingPage() {
                 {renderCards}
             </Row>
 
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <button>더보기</button>
+            <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginTop: '2rem' }}>
+                <Button onClick={loadMoreHandler}>더보기</Button>
             </div>
         </div >
     )
