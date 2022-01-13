@@ -3,6 +3,8 @@ import axios from 'axios'
 import { Icon, Col, Card, Row, Button } from 'antd'
 import Meta from 'antd/lib/card/Meta'
 import ImageSlider from '../../utils/ImageSlider'
+import CheckBox from './Sections/CheckBox'
+import { continents } from './Sections/Datas'
 
 function LandingPage() {
     useEffect(() => {
@@ -64,6 +66,9 @@ function LandingPage() {
             <div style={{ textAlign: 'center' }}>
                 <h2>Let's Travel Anywhere <Icon type='rocket' /></h2>
             </div>
+
+            {/* filter */}
+            <CheckBox list={continents} />
 
             <Row gutter={[16, 16]}>
                 {renderCards}
