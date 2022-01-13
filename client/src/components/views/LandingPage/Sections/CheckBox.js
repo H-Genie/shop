@@ -32,7 +32,7 @@ function CheckBox({ list, handleFielters }) {
     return (
         <div>
             <Collapse>
-                <Panel header="This is panel header1" key="1">
+                <Panel header="Continents" key="1">
                     {renderCheckboxLists()}
                 </Panel>
             </Collapse>

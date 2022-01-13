@@ -19,6 +19,10 @@ function LandingPage() {
     const [skip, setSkip] = useState(0)
     const [limit, setLimit] = useState(8)
     const [postSize, setPostSize] = useState(0)
+    const [filters, setFilters] = useState({
+        continents: [],
+        price: []
+    })
 
     const getProduct = body => {
         axios.post('/api/product/products', body)
@@ -61,8 +65,21 @@ function LandingPage() {
         )
     })
 
-    const handleFielters = () => {
+    const showFilteredResults = filters => {
+        let body = {
+            skip: 0, // 아무것도 가져오지 않음
+            limit,
+            filters
+        }
+        getProduct(body)
+        setSkip(0)
+    }
 
+    const handleFielters = (filters, category) => {
+        const newFilters = { ...filters }
+        newFilters[category] = filters
+
+        showFilteredResults(newFilters)
     }
 
     return (
@@ -72,7 +89,7 @@ function LandingPage() {
             </div>
 
             {/* filter */}
-            <CheckBox list={continents} handleFielters={filter => handleFielters(filter, "continents")} />
+            <CheckBox list={continents} handleFielters={filters => handleFielters(filters, "continents")} />
 
             <Row gutter={[16, 16]}>
                 {renderCards}
