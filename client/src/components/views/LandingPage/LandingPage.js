@@ -10,23 +10,38 @@ function LandingPage() {
             skip,
             limit
         }
-
-        axios.post('/api/product/products', body)
-            .then(response => {
-                if (response.data.success) {
-                    setProducts(response.data.productInfo)
-                } else {
-                    alert("상품들을 가져오는데 실패 했습니다.")
-                }
-            })
+        getProduct(body)
     }, [])
 
     const [products, setProducts] = useState([])
     const [skip, setSkip] = useState(0)
     const [limit, setLimit] = useState(8)
+    const [postSize, setPostSize] = useState(0)
+
+    const getProduct = body => {
+        axios.post('/api/product/products', body)
+            .then(response => {
+                if (response.data.success) {
+                    if (body.loadMore) {
+                        setProducts([...products, ...response.data.productInfo])
+                    } else {
+                        setProducts(response.data.productInfo)
+                    }
+                    setPostSize(response.data.postSize)
+                } else {
+                    alert("상품들을 가져오는데 실패 했습니다.")
+                }
+            })
+    }
 
     const loadMoreHandler = () => {
-
+        let body = {
+            skip: skip + limit, // 최초 0 + 8, 두번째 8 + 8, 세번째 16 + 8
+            limit,
+            loadMore: true // 더보기 버튼을 눌렀다는 정보
+        }
+        getProduct(body)
+        setSkip(skip)
     }
 
     const renderCards = products.map((product, index) => {
@@ -54,9 +69,11 @@ function LandingPage() {
                 {renderCards}
             </Row>
 
-            <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginTop: '2rem' }}>
-                <Button onClick={loadMoreHandler}>더보기</Button>
-            </div>
+            {postSize >= limit &&
+                <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginTop: '2rem' }}>
+                    <Button onClick={loadMoreHandler}>더보기</Button>
+                </div>
+            }
         </div >
     )
 }
