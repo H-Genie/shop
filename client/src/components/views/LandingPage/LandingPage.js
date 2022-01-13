@@ -61,6 +61,10 @@ function LandingPage() {
         )
     })
 
+    const handleFielters = () => {
+
+    }
+
     return (
         <div style={{ width: '75%', margin: '3rem auto' }}>
             <div style={{ textAlign: 'center' }}>
@@ -68,7 +72,7 @@ function LandingPage() {
             </div>
 
             {/* filter */}
-            <CheckBox list={continents} />
+            <CheckBox list={continents} handleFielters={filter => handleFielters(filter, "continents")} />
 
             <Row gutter={[16, 16]}>
                 {renderCards}
