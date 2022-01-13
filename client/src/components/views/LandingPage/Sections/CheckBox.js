@@ -31,12 +31,12 @@ function CheckBox({ list, handleFielters }) {
 
     return (
         <div>
-            <Collapse>
+            <Collapse defaultActiveKey={['0']}>
                 <Panel header="Continents" key="1">
                     {renderCheckboxLists()}
                 </Panel>
             </Collapse>
-        </div>
+        </div >
     )
 }
 

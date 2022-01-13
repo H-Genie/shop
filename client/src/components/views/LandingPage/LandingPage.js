@@ -4,7 +4,8 @@ import { Icon, Col, Card, Row, Button } from 'antd'
 import Meta from 'antd/lib/card/Meta'
 import ImageSlider from '../../utils/ImageSlider'
 import CheckBox from './Sections/CheckBox'
-import { continents } from './Sections/Datas'
+import RadioBox from './Sections/RadioBox'
+import { continents, price } from './Sections/Datas'
 
 function LandingPage() {
     useEffect(() => {
@@ -88,12 +89,22 @@ function LandingPage() {
                 <h2>Let's Travel Anywhere <Icon type='rocket' /></h2>
             </div>
 
+
             {/* filter */}
-            <CheckBox list={continents} handleFielters={filters => handleFielters(filters, "continents")} />
+            <Row gutter={[16, 16]}>
+                <Col lg={12} xs={24}>
+                    <CheckBox list={continents} handleFielters={filters => handleFielters(filters, "continents")} />
+                </Col>
+                <Col lg={12} xs={24}>
+                    <RadioBox list={price} handleFielters={filters => handleFielters(filters, "price")} />
+                </Col>
+            </Row>
+
 
             <Row gutter={[16, 16]}>
                 {renderCards}
             </Row>
+
 
             {postSize >= limit &&
                 <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginTop: '2rem' }}>
