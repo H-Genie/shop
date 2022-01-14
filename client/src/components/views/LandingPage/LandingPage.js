@@ -99,7 +99,16 @@ function LandingPage() {
 
     // function
     const updateSearchTerm = newSearchTerm => {
+        let body = {
+            skip: 0,
+            limit,
+            filters,
+            searchTerm: newSearchTerm
+        }
+
         setSearchTerm(newSearchTerm)
+        getProduct(body)
+        setSkip(0)
     }
 
 

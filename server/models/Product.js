@@ -1,3 +1,4 @@
+const { text } = require('body-parser');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema
 
@@ -35,6 +36,16 @@ const productSchema = mongoose.Schema({
         default: 0
     }
 }, { timestamps: true })
+
+productSchema.index({
+    title: 'text',
+    description: 'text'
+}, {
+    weight: {
+        title: 5,
+        description: 1
+    }
+})
 
 const Product = mongoose.model('Product', productSchema);
 
