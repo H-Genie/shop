@@ -85,8 +85,6 @@ router.post('/products', (req, res) => {
 })
 
 router.get('/product_by_id', (req, res) => {
-    console.log(req.query)
-
     let type = req.query.type;
     let productId = req.query.id;
 
