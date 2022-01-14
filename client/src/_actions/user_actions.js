@@ -53,7 +53,7 @@ export function addToCart(id) {
         productId: id
     }
 
-    const request = axios.post(`${USER_SERVER}/addTpCart`, body)
+    const request = axios.post(`${USER_SERVER}/addToCart`, body)
         .then(response => response.data);
 
     return {
