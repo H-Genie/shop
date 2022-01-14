@@ -5,6 +5,7 @@ import Meta from 'antd/lib/card/Meta'
 import ImageSlider from '../../utils/ImageSlider'
 import CheckBox from './Sections/CheckBox'
 import RadioBox from './Sections/RadioBox'
+import SearchFeature from './Sections/SearchFeature'
 import { continents, price } from './Sections/Datas'
 
 function LandingPage() {
@@ -16,6 +17,8 @@ function LandingPage() {
         getProduct(body)
     }, [])
 
+
+    // state
     const [products, setProducts] = useState([])
     const [skip, setSkip] = useState(0)
     const [limit, setLimit] = useState(8)
@@ -24,7 +27,11 @@ function LandingPage() {
         continents: [],
         price: []
     })
+    const [searchTerm, setSearchTerm] = useState("")
 
+
+
+    // call API
     const getProduct = body => {
         axios.post('/api/product/products', body)
             .then(response => {
@@ -51,20 +58,21 @@ function LandingPage() {
         setSkip(skip)
     }
 
-    const renderCards = products.map((product, index) => {
-        return (
-            <Col lg={6} md={8} xs={24} key={index}>
-                <Card
-                    cover={<ImageSlider images={product.images} />}
-                >
-                    <Meta
-                        title={product.title}
-                        description={`$${product.price}`}
-                    />
-                </Card>
-            </Col>
-        )
-    })
+
+
+    // filters
+    const handleFielters = (paramFilters, category) => {
+        const newFilters = { ...filters }
+        newFilters[category] = paramFilters
+
+        if (category === "price") {
+            let priceValues = handlePrice(paramFilters)
+            newFilters[category] = priceValues
+        }
+
+        showFilteredResults(newFilters)
+        setFilters(newFilters)
+    }
 
     const showFilteredResults = filters => {
         let body = {
@@ -88,18 +96,31 @@ function LandingPage() {
         return array
     }
 
-    const handleFielters = (paramFilters, category) => {
-        const newFilters = { ...filters }
-        newFilters[category] = paramFilters
 
-        if (category === "price") {
-            let priceValues = handlePrice(paramFilters)
-            newFilters[category] = priceValues
-        }
-
-        showFilteredResults(newFilters)
-        setFilters(newFilters)
+    // function
+    const updateSearchTerm = newSearchTerm => {
+        setSearchTerm(newSearchTerm)
     }
+
+
+
+    // render
+    const renderCards = products.map((product, index) => {
+        return (
+            <Col lg={6} md={8} xs={24} key={index}>
+                <Card
+                    cover={<ImageSlider images={product.images} />}
+                >
+                    <Meta
+                        title={product.title}
+                        description={`$${product.price}`}
+                    />
+                </Card>
+            </Col>
+        )
+    })
+
+
 
     return (
         <div style={{ width: '75%', margin: '3rem auto' }}>
@@ -111,19 +132,30 @@ function LandingPage() {
             {/* filter */}
             <Row gutter={[16, 16]}>
                 <Col lg={12} xs={24}>
-                    <CheckBox list={continents} handleFielters={filters => handleFielters(filters, "continents")} />
+                    <CheckBox
+                        list={continents}
+                        handleFielters={filters => handleFielters(filters, "continents")}
+                    />
                 </Col>
                 <Col lg={12} xs={24}>
-                    <RadioBox list={price} handleFielters={filters => handleFielters(filters, "price")} />
+                    <RadioBox
+                        list={price}
+                        handleFielters={filters => handleFielters(filters, "price")}
+                    />
                 </Col>
             </Row>
 
+            {/* search */}
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <SearchFeature refreshFunction={updateSearchTerm} />
+            </div>
 
+            {/* cards */}
             <Row gutter={[16, 16]}>
                 {renderCards}
             </Row>
 
-
+            {/* 더보기 버튼 */}
             {postSize >= limit &&
                 <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginTop: '2rem' }}>
                     <Button onClick={loadMoreHandler}>더보기</Button>
