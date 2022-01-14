@@ -68,4 +68,17 @@ router.get("/logout", auth, (req, res) => {
     });
 });
 
+router.post("/addToCart", auth, (req, res) => {
+    // 먼저 User Collection에 해당 유저 정보를 가져오기
+
+
+    // 가져온 정보에서 넣으려 하는 상품이 이미 들어있는지 확인
+
+
+    // 상품이 이미 있을 때
+
+
+    // 상품이 있지 않을때
+});
+
 module.exports = router;
