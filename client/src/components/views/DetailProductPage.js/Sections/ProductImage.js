@@ -15,7 +15,8 @@ function ProductImage(props) {
             props.detail.images.map(item => {
                 images.push({
                     original: `${host}/${item}`,
-                    htumbnail: `${host}/${item}`
+                    thumbnail: `${host}/${item}`,
+                    sizes: '100px'
                 })
             })
             setImages(images)
@@ -23,8 +24,8 @@ function ProductImage(props) {
     }, [props.detail])
 
     return (
-        <div style={{ width: '100%' }}>
-            <ImageGallery items={images} />
+        <div>
+            <ImageGallery items={images} s />
         </div>
     )
 }
