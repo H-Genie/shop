@@ -97,7 +97,7 @@ function LandingPage() {
     }
 
 
-    // function
+    // search
     const updateSearchTerm = newSearchTerm => {
         let body = {
             skip: 0,
@@ -118,7 +118,11 @@ function LandingPage() {
         return (
             <Col lg={6} md={8} xs={24} key={index}>
                 <Card
-                    cover={<ImageSlider images={product.images} />}
+                    cover={
+                        <a href={`/product/${product._id}`}>
+                            <ImageSlider images={product.images} />
+                        </a>
+                    }
                 >
                     <Meta
                         title={product.title}
@@ -154,15 +158,18 @@ function LandingPage() {
                 </Col>
             </Row>
 
+
             {/* search */}
-            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', margin: '1rem 0' }}>
                 <SearchFeature refreshFunction={updateSearchTerm} />
             </div>
+
 
             {/* cards */}
             <Row gutter={[16, 16]}>
                 {renderCards}
             </Row>
+
 
             {/* 더보기 버튼 */}
             {postSize >= limit &&
