@@ -84,13 +84,14 @@ router.post('/products', (req, res) => {
     }
 })
 
-router.get('/product_by_id', (req, res) => {
+router.get('/products_by_id', (req, res) => {
     let type = req.query.type;
     let productIds = req.query.id;
 
     if (type === "array") {
-        let ids = req.query.id.split(',')
-        productIds = ids.map(item => { return item })
+        let ids = req.query.id.split(',');
+        productIds = [];
+        productIds = ids.map(item => { return item });
     }
 
     Product.find({ _id: { $in: productIds } })
