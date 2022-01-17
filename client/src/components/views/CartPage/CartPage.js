@@ -1,23 +1,23 @@
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { getCartItem } from '../../../_actions/user_actions'
+import { getCartItems } from '../../../_actions/user_actions'
 
 function CartPage(props) {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        let cartItem = []
+        let cartItems = []
 
         if (props.user.userData && props.user.userData.cart) {
             if (props.user.userData.cart.length > 0) {
-                props.user.userData.cart.forEacg(item => {
-                    cartItem.push(item.id)
+                props.user.userData.cart.forEach(item => {
+                    cartItems.push(item.id)
                 })
 
-                dispatch(getCartItems(cartItem, props.user.userData.cart))
+                dispatch(getCartItems(cartItems, props.user.userData.cart))
             }
         }
-    }, [])
+    }, [props.user.userData])
 
     return (
         <div>

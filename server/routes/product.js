@@ -96,8 +96,8 @@ router.get('/product_by_id', (req, res) => {
     Product.find({ _id: { $in: productIds } })
         .populate('writer')
         .exec((err, product) => {
-            if (err) return res.status(400).send({ success: false, err });
-            return res.status(200).send({ success: true, product })
+            if (err) return res.status(400).json({ success: false, err });
+            return res.status(200).json({ success: true, product })
         })
 })
 
