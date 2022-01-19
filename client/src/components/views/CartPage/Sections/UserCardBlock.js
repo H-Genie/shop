@@ -3,6 +3,7 @@
 
 import React from 'react'
 import './UserCardBlock.css'
+import { Button } from 'antd'
 
 function UserCardBlock(props) {
     const renderCartImage = images => {
@@ -31,7 +32,7 @@ function UserCardBlock(props) {
                     {product.price}
                 </td>
                 <td>
-                    <button>remove</button>
+                    <Button onClick={() => props.removeItem(product._id)}>remove</Button>
                 </td>
             </tr>
         ))
