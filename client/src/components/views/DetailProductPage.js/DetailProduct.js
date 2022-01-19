@@ -10,14 +10,11 @@ function DetailProduct(props) {
     const [product, setProduct] = useState({})
 
     useEffect(() => {
-        axios.get(`/api/product/product_by_id?id=${productId}&type=single`)
+        axios.get(`/api/product/products_by_id?id=${productId}&type=single`)
             .then(response => {
-                if (response.data.success) {
-                    setProduct(response.data.product[0])
-                } else {
-                    alert("상세 정보를 불러오는데 실패했습니다.")
-                }
+                setProduct(response.data[0])
             })
+            .catch(err => alert(err))
     }, [])
 
     return (
