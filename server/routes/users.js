@@ -141,4 +141,25 @@ router.get('/removeFromCart', auth, (req, res) => {
     )
 })
 
+router.post('/successBuy', auth, (req, res) => {
+    // User Collection 안에 History 필드 안에 결제 정보 넣어주기
+    let history = [];
+    let transactionData = {};
+
+    req.body.cartDetail.forEach(item => {
+        history.push({
+            dateOfPurchase: Date.now(),
+            name: item.title,
+            id: item._id,
+            price: item.price,
+            quantity: item.quantity,
+            paymentId: req.body.paymentData.paymentId
+        })
+    })
+
+    // Payment Collection 안에 자세한 결제 정보 넣어주기
+
+    // Prodict Collection 안에 sold 필드 정보 업데이트
+})
+
 module.exports = router;

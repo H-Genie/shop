@@ -38,6 +38,8 @@ export default function (state = {}, action) {
                     cart: action.payload.cart
                 }
             }
+        case ON_SUCCESS_BUY:
+            return { ...state }
         default:
             return state;
     }
