@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const { User } = require("../models/User");
 const { Product } = require("../models/Product");
-
+const { Payment } = require('../models/Payment');
 const { auth } = require("../middleware/auth");
+const async = require('async');
 
 //=================================
 //             User
@@ -169,10 +170,43 @@ router.post('/successBuy', auth, (req, res) => {
     User.findOneAndUpdate(
         { _id: req.user._id },
         { $push: { history: history }, $set: { cart: [] } },
-        { new: true }
-    )
+        { new: true },
+        (err, user) => {
+            if (err) return res.json({ success: false, err })
 
-    // Prodict Collection 안에 sold 필드 정보 업데이트
+            // payment 에다가 transactionData 정보 저장
+            const payment = new Payment(transactionData)
+            payment.save((err, doc) => {
+                if (err) return res.json({ success: false, err })
+
+                // Product Collection 안에 있는 sold 필드 정보 업데이트
+                let products = [];
+                doc.product.forEach(item => {
+                    products.push({ id: item.id, quantity: item.quantity })
+                })
+
+                async.eachSeries(products, (item, callback) => {
+                    Product.update(
+                        { _id: item.id },
+                        {
+                            $inc: {
+                                "sold": item.quantity
+                            }
+                        },
+                        { new: false },
+                        callback
+                    )
+                }, (err) => {
+                    if (err) return res.json({ success: false, err });
+                    res.status(200).json({
+                        success: true,
+                        cart: user.cart,
+                        cartDetail: []
+                    })
+                })
+            })
+        }
+    )
 })
 
 module.exports = router;
