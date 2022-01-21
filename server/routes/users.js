@@ -158,6 +158,19 @@ router.post('/successBuy', auth, (req, res) => {
     })
 
     // Payment Collection 안에 자세한 결제 정보 넣어주기
+    transactionData.user = {
+        id: req.user._id,
+        name: req.user.name,
+        email: req.user.email
+    }
+    transactionData.data = req.body.paymentData;
+    transactionData.product = history;
+
+    User.findOneAndUpdate(
+        { _id: req.user._id },
+        { $push: { history: history }, $set: { cart: [] } },
+        { new: true }
+    )
 
     // Prodict Collection 안에 sold 필드 정보 업데이트
 })
